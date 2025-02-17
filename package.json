@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "yarn workspace frontend dev",
     "build": "yarn workspace frontend build",
-    "test": "yarn workspace frontend test",
+    "test:frontend": "yarn workspace frontend test",
+    "test:backend": "yarn workspace backend test",
+    "test": "yarn test:frontend && yarn test:backend",
     "lint": "yarn workspace frontend lint"
   },
   "devDependencies": {
