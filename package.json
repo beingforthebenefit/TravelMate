@@ -6,6 +6,21 @@
   ],
   "scripts": {
     "dev": "yarn workspace frontend dev",
-    "build": "yarn workspace frontend build"
+    "build": "yarn workspace frontend build",
+    "test": "yarn workspace frontend test",
+    "lint": "yarn workspace frontend lint"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": "eslint --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test"
+    }
   }
 }

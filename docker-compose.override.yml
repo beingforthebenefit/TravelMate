@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  frontend:
+    command: yarn dev
+    volumes:
+      - ./packages/frontend:/app/packages/frontend:cached
+      - /app/packages/frontend/node_modules
+    environment:
+      - NODE_ENV=development
+
+  backend:
+    command: yarn start:dev
+    volumes:
+      - ./packages/backend:/app/packages/backend:cached
+      - /app/packages/backend/node_modules
+    environment:
+      - NODE_ENV=development
