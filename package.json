@@ -1,0 +1,11 @@
+{
+  "name": "travelmate",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "yarn workspace frontend dev",
+    "build": "yarn workspace frontend build"
+  }
+}
