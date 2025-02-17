@@ -1,27 +1,13 @@
 import { Resolver, Query } from '@nestjs/graphql';
 import { User } from './user.entity';
-// Import your Prisma service here to fetch real data, for now we'll use dummy data.
-import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
-@Injectable()
 @Resolver(() => User)
 export class UsersResolver {
+  constructor(private prisma: PrismaService) {}
+
   @Query(() => [User])
   async users(): Promise<User[]> {
-    // For now, return dummy data. Later, integrate with Prisma.
-    return [
-      {
-        id: 1,
-        email: 'user1@example.com',
-        name: 'User One',
-        createdAt: new Date(),
-      },
-      {
-        id: 2,
-        email: 'user2@example.com',
-        name: 'User Two',
-        createdAt: new Date(),
-      },
-    ];
+    return this.prisma.user.findMany();
   }
 }

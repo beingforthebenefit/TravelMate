@@ -5,11 +5,11 @@ export class User {
   @Field(() => Int)
   id: number;
 
-  @Field()
+  @Field(() => String)
   email: string;
 
-  @Field({ nullable: true })
-  name?: string;
+  @Field(() => String, { nullable: true })
+  name: string | null;
 
   @Field()
   createdAt: Date;
