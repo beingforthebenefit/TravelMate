@@ -13,8 +13,6 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: yarn install
-      - name: Debug Workspaces
-        run: yarn workspaces info
       - name: Lint
         run: yarn lint
       - name: Test
