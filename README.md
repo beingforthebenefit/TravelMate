@@ -4,14 +4,14 @@ TravelMate is a modern full-stack application for travel planning and itinerary 
 
 ## Table of Contents
 
-- [Features](```Features```)
-- [Tech Stack](```Tech-Stack```)
-- [Project Structure](```Project-Structure```)
-- [Development Setup](```Development-Setup```)
-- [Docker Configuration](```Docker-Configuration```)
-- [Testing and CI/CD](```Testing-and-CICD```)
-- [Contributing](```Contributing```)
-- [License](```License```)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Development Setup](#development-setup)
+- [Docker Configuration](#docker-configuration)
+- [Testing and CI/CD](#testing-and-cicd)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
