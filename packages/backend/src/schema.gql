@@ -23,9 +23,15 @@ type Itinerary {
   title: String!
 }
 
+type MapLocation {
+  center: [Float!]
+  place_name: String!
+}
+
 type Query {
   destinations: [Destination!]!
   itineraries: [Itinerary!]!
+  searchLocations(query: String!): [MapLocation!]!
   users: [User!]!
 }
 

@@ -22,4 +22,27 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect('Hello World!');
   });
+
+  it('should return users', async () => {
+    const query = {
+      query: `
+        query {
+          users {
+            id
+            email
+            name
+            createdAt
+          }
+        }
+      `,
+    };
+
+    return request(app.getHttpServer())
+      .post('/graphql')
+      .send(query)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data.users).toBeDefined();
+      });
+  });
 });
