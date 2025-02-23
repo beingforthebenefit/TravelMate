@@ -1,4 +1,11 @@
-import { Resolver, Query, Args, Float, ObjectType, Field } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  Float,
+  ObjectType,
+  Field,
+} from '@nestjs/graphql';
 import { MapsService } from './maps.service';
 import { Coordinates } from 'src/types';
 
@@ -13,7 +20,7 @@ class MapLocation {
 
 @Resolver()
 export class MapsResolver {
-  constructor(private readonly mapsService: MapsService) { }
+  constructor(private readonly mapsService: MapsService) {}
 
   @Query(() => [MapLocation])
   async searchLocations(@Args('query') query: string): Promise<MapLocation[]> {

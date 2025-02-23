@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   postgres:
     image: postgres:15-alpine
@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: travelmate_pass
       POSTGRES_DB: travelmate_db
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: packages/frontend/Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=development
 
@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: packages/backend/Dockerfile
     ports:
-      - "3001:3001"
+      - '3001:3001'
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://travelmate_user:travelmate_pass@postgres:5432/travelmate_db?schema=public

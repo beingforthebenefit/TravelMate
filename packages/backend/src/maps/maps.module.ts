@@ -4,8 +4,8 @@ import { MapsService } from './maps.service';
 import { MapsResolver } from './map.resolver';
 
 @Module({
-    imports: [HttpModule],
-    providers: [MapsService, MapsResolver],
-    exports: [MapsService],
+  imports: [HttpModule],
+  providers: [MapsService, MapsResolver],
+  exports: [MapsService],
 })
 export class MapsModule {}

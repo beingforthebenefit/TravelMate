@@ -7,8 +7,18 @@ describe('UsersResolver', () => {
   let prismaService: PrismaService;
 
   const dummyUsers = [
-    { id: 1, email: 'user1@example.com', name: 'User One', createdAt: new Date() },
-    { id: 2, email: 'user2@example.com', name: 'User Two', createdAt: new Date() },
+    {
+      id: 1,
+      email: 'user1@example.com',
+      name: 'User One',
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      email: 'user2@example.com',
+      name: 'User Two',
+      createdAt: new Date(),
+    },
   ];
 
   const prismaServiceMock = {

@@ -19,7 +19,9 @@ export class MapsService {
     )}.json?access_token=${this.mapboxApiKey}&limit=5`;
 
     try {
-      const response: AxiosResponse<any> = await firstValueFrom(this.httpService.get(url));
+      const response: AxiosResponse<any> = await firstValueFrom(
+        this.httpService.get(url),
+      );
       return response.data;
     } catch (error) {
       throw new InternalServerErrorException('Failed to fetch locations');

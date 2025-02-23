@@ -17,13 +17,17 @@ describe('PrismaService', () => {
   });
 
   it('should call $connect on module initialization', async () => {
-    const connectSpy = jest.spyOn(service, '$connect').mockResolvedValue(undefined);
+    const connectSpy = jest
+      .spyOn(service, '$connect')
+      .mockResolvedValue(undefined);
     await service.onModuleInit();
     expect(connectSpy).toHaveBeenCalled();
   });
 
   it('should call $disconnect on module destroy', async () => {
-    const disconnectSpy = jest.spyOn(service, '$disconnect').mockResolvedValue(undefined);
+    const disconnectSpy = jest
+      .spyOn(service, '$disconnect')
+      .mockResolvedValue(undefined);
     await service.onModuleDestroy();
     expect(disconnectSpy).toHaveBeenCalled();
   });

@@ -7,8 +7,18 @@ describe('ItinerariesResolver', () => {
   let prismaService: PrismaService;
 
   const dummyItineraries = [
-    { id: 1, title: 'Trip to Paris', description: 'A lovely trip to Paris', createdAt: new Date() },
-    { id: 2, title: 'Trip to Tokyo', description: 'An exciting journey through Tokyo', createdAt: new Date() },
+    {
+      id: 1,
+      title: 'Trip to Paris',
+      description: 'A lovely trip to Paris',
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      title: 'Trip to Tokyo',
+      description: 'An exciting journey through Tokyo',
+      createdAt: new Date(),
+    },
   ];
 
   beforeEach(async () => {

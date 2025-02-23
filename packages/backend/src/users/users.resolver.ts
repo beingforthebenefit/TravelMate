@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   @Query(() => [User])
   async users(): Promise<User[]> {

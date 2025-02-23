@@ -3,9 +3,9 @@ import { User } from '../../users/user.entity';
 
 @ObjectType()
 export class LoginPayload {
-    @Field()
-    token: string;
+  @Field()
+  token: string;
 
-    @Field(() => User)
-    user: User;
+  @Field(() => User)
+  user: User;
 }
