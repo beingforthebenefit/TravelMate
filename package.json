@@ -12,7 +12,8 @@
     "test:frontend": "yarn workspace frontend test",
     "test:backend": "yarn workspace backend test",
     "test": "yarn test:frontend && yarn test:backend",
-    "lint": "yarn workspace frontend lint"
+    "lint": "yarn workspace frontend lint",
+    "seed": "docker-compose exec backend yarn seed"
   },
   "devDependencies": {
     "husky": "^9.1.7",
