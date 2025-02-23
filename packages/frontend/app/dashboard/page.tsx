@@ -1,8 +1,11 @@
 "use client";
 
 import NavBar from "@/components/NavBar";
+import useAuth from "@/components/useAuth";
 
 export default function DashboardPage() {
+    useAuth();
+
     // Dummy itinerary cards
     const cards = [
         { id: 1, title: "Trip to Paris", description: "A beautiful journey to Paris." },
