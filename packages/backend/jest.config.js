@@ -13,4 +13,5 @@ module.exports = {
     "!**/node_modules/**",
     "!**/dist/**"
   ],
+  setupFiles: ["<rootDir>/jest.setup.js"]
 };

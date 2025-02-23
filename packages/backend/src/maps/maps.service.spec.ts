@@ -1,5 +1,3 @@
-process.env.MAPBOX_API_KEY = 'dummy_key';
-
 import { Test, TestingModule } from '@nestjs/testing';
 import { MapsService } from './maps.service';
 import { HttpModule } from '@nestjs/axios';
