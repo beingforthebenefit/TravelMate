@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.1",
+    "cross-fetch": "^4.1.0",
     "graphql": "^16.10.0",
     "next": "15.1.7",
     "react": "^19.0.0",
