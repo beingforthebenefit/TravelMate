@@ -2,23 +2,38 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@apollo/client";
+import { REGISTER } from "@/lib/queries";
 
 export default function RegisterPage() {
     const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
     const [error, setError] = useState("");
+    const [registerMutation, { loading }] = useMutation(REGISTER);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const email = formData.get("email")?.toString() || "";
+        const password = formData.get("password")?.toString() || "";
+        const name = formData.get("name")?.toString() || "";
 
-        // TODO: Integrate with backend registration API.
-        // For now, simulate successful registration.
-        if (email && password && name) {
-            router.push("/auth/login");
-        } else {
+        if (!email || !password || !name) {
             setError("Please fill in all fields");
+            return;
+        }
+        try {
+            const { data } = await registerMutation({
+                variables: { data: { email, password, name } },
+            });
+            if (data?.register) {
+                router.push("/auth/login");
+            }
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred");
+            }
         }
     };
 
@@ -28,7 +43,9 @@ export default function RegisterPage() {
                 onSubmit={handleSubmit}
                 className="bg-white dark:bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md"
             >
-                <h1 className="text-2xl font-bold mb-4 text-center">Register for TravelMate</h1>
+                <h1 className="text-2xl font-bold mb-4 text-center">
+                    Register for TravelMate
+                </h1>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <div className="mb-4">
                     <label
@@ -39,10 +56,9 @@ export default function RegisterPage() {
                     </label>
                     <input
                         id="name"
+                        name="name"
                         type="text"
                         required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Your Name"
                     />
@@ -56,10 +72,9 @@ export default function RegisterPage() {
                     </label>
                     <input
                         id="email"
+                        name="email"
                         type="email"
                         required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="you@example.com"
                     />
@@ -73,10 +88,9 @@ export default function RegisterPage() {
                     </label>
                     <input
                         id="password"
+                        name="password"
                         type="password"
                         required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="********"
                     />
@@ -84,9 +98,10 @@ export default function RegisterPage() {
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"
+                        disabled={loading}
                         className="bg-foreground text-background font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-90"
                     >
-                        Register
+                        {loading ? "Registering..." : "Register"}
                     </button>
                     <a
                         className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"

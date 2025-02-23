@@ -2,23 +2,39 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "@/lib/queries";
 
 export default function LoginPage() {
     const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loginMutation, { loading }] = useMutation(LOGIN);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const email = formData.get("email")?.toString() || "";
+        const password = formData.get("password")?.toString() || "";
 
-        // TODO: Integrate with backend authentication API.
-        // For now, simulate login success if email contains "travelmate"
-        if (email.includes("travelmate")) {
-            // Redirect to the dashboard (itinerary management)
-            router.push("/dashboard");
-        } else {
-            setError("Invalid credentials");
+        if (!email || !password) {
+            setError("Please fill in all fields");
+            return;
+        }
+
+        try {
+            const { data } = await loginMutation({
+                variables: { data: { email, password } },
+            });
+            if (data?.login) {
+                localStorage.setItem("token", data.login.token);
+                router.push("/dashboard");
+            }
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred");
+            }
         }
     };
 
@@ -28,7 +44,9 @@ export default function LoginPage() {
                 onSubmit={handleSubmit}
                 className="bg-white dark:bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md"
             >
-                <h1 className="text-2xl font-bold mb-4 text-center">Login to TravelMate</h1>
+                <h1 className="text-2xl font-bold mb-4 text-center">
+                    Login to TravelMate
+                </h1>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <div className="mb-4">
                     <label
@@ -39,10 +57,9 @@ export default function LoginPage() {
                     </label>
                     <input
                         id="email"
+                        name="email"
                         type="email"
                         required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="you@example.com"
                     />
@@ -56,10 +73,9 @@ export default function LoginPage() {
                     </label>
                     <input
                         id="password"
+                        name="password"
                         type="password"
                         required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="********"
                     />
@@ -67,9 +83,10 @@ export default function LoginPage() {
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"
+                        disabled={loading}
                         className="bg-foreground text-background font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-90"
                     >
-                        Login
+                        {loading ? "Logging in..." : "Login"}
                     </button>
                     <a
                         className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"

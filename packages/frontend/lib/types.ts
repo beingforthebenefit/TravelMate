@@ -8,3 +8,8 @@ export interface User {
 export interface GetUsersData {
   users: User[];
 }
+
+export interface LoginPayload {
+  token: string;
+  user: User;
+}

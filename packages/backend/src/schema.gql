@@ -23,16 +23,39 @@ type Itinerary {
   title: String!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginPayload {
+  token: String!
+  user: User!
+}
+
 type MapLocation {
   center: [Float!]
   place_name: String!
+}
+
+type Mutation {
+  login(data: LoginInput!): LoginPayload!
+  register(data: RegisterInput!): User!
 }
 
 type Query {
   destinations: [Destination!]!
   itineraries: [Itinerary!]!
   searchLocations(query: String!): [MapLocation!]!
+  user(id: Float!): User
+  userByEmail(email: String!): User
   users: [User!]!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
 }
 
 type User {
