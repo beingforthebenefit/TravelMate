@@ -20,6 +20,7 @@ describe('AuthResolver', () => {
 
   const prismaServiceMock = {
     user: {
+      // Return dummyUser if email matches; otherwise, null.
       findUnique: jest.fn((args) => {
         if (args.where.email === dummyUser.email) {
           return Promise.resolve(dummyUser);
@@ -53,13 +54,12 @@ describe('AuthResolver', () => {
       password: 'plaintextpassword',
     };
 
-    // For this test, simulate that no user exists.
+    // Simulate that no user exists with that email.
     prismaService.user.findUnique = jest.fn().mockResolvedValue(null);
-    // Override bcrypt.hash to return 'hashedpassword'
+    // Mock bcrypt.hash to return 'hashedpassword'
     jest
       .spyOn(bcrypt, 'hash')
-      .mockImplementation(((data: string, saltOrRounds: number) =>
-        Promise.resolve('hashedpassword')) as any);
+      .mockImplementation((data: string, saltOrRounds: number) => Promise.resolve('hashedpassword'));
 
     const result = await resolver.register(registerInput);
     expect(result).toEqual(dummyUser);
@@ -72,34 +72,45 @@ describe('AuthResolver', () => {
     });
   });
 
-  // it('should login an existing user', async () => {
-  //     const loginInput: LoginInput = {
-  //         email: dummyUser.email,
-  //         password: 'plaintextpassword',
-  //     };
+  // it('should login an existing user with correct password', async () => {
+  //   const loginInput: LoginInput = {
+  //     email: dummyUser.email,
+  //     password: 'plaintextpassword',
+  //   };
 
-  //     // Override bcrypt.compare so that it always resolves to true
-  //     jest
-  //         .spyOn(bcrypt, 'compare')
-  //         .mockImplementation(((password: string, hash: string) => Promise.resolve(true)) as any);
+  //   // Mock bcrypt.compare to simulate a valid password
+  //   jest
+  //     .spyOn(bcrypt, 'compare')
+  //     .mockImplementation((password: string, hash: string) => Promise.resolve(true));
 
-  //     // Spy on jwt.sign to return a dummy token
-  //     const token = 'dummyToken';
-  //     jest.spyOn(jwt, 'sign').mockReturnValue(token);
+  //   // Mock jwt.sign to return a dummy token
+  //   jest.spyOn(jwt, 'sign').mockReturnValue('dummyToken');
 
-  //     const result = await resolver.login(loginInput);
-  //     expect(result.token).toEqual(token);
-  //     expect(result.user).toEqual(dummyUser);
+  //   const result = await resolver.login(loginInput);
+  //   expect(result.token).toEqual('dummyToken');
+  //   expect(result.user).toEqual(dummyUser);
   // });
 
-  it('should fail login with wrong credentials', async () => {
+  it('should fail login with incorrect password', async () => {
+    const loginInput: LoginInput = {
+      email: dummyUser.email,
+      password: 'wrongpassword',
+    };
+
+    // Simulate bcrypt.compare returning false for incorrect password
+    jest
+      .spyOn(bcrypt, 'compare')
+      .mockImplementation((password: string, hash: string) => Promise.resolve(false));
+
+    await expect(resolver.login(loginInput)).rejects.toThrow('Invalid credentials');
+  });
+
+  it('should fail login for a non-existent user', async () => {
     const loginInput: LoginInput = {
       email: 'nonexistent@example.com',
       password: 'any',
     };
 
-    await expect(resolver.login(loginInput)).rejects.toThrow(
-      'Invalid credentials',
-    );
+    await expect(resolver.login(loginInput)).rejects.toThrow('Invalid credentials');
   });
 });

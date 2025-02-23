@@ -13,7 +13,12 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      // When running tests, generate the schema in memory (boolean true)
+      // Otherwise, write the schema to src/schema.gql.
+      autoSchemaFile:
+        process.env.NODE_ENV === 'test'
+          ? true
+          : join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: true,
     }),
@@ -25,4 +30,4 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
