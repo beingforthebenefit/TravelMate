@@ -13,7 +13,11 @@
     "test:backend": "yarn workspace backend test",
     "test": "yarn test:frontend && yarn test:backend",
     "lint": "yarn workspace frontend lint",
-    "seed": "docker-compose exec backend yarn seed"
+    "seed": "docker-compose exec backend yarn seed",
+    "prettier": "prettier --write .",
+    "test:cov:backend": "yarn workspace backend test:cov",
+    "test:cov:frontend": "yarn workspace frontend test:cov",
+    "coverage": "yarn test:cov:backend && yarn test:cov:frontend"
   },
   "devDependencies": {
     "husky": "^9.1.7",
