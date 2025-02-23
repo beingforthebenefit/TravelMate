@@ -46,9 +46,11 @@ describe('MapsService', () => {
   });
 
   it('should throw an InternalServerErrorException when API call fails', async () => {
-    jest.spyOn(service['httpService'], 'get').mockReturnValue(
-      throwError(() => new Error('API error'))
+    jest
+      .spyOn(service['httpService'], 'get')
+      .mockReturnValue(throwError(() => new Error('API error')));
+    await expect(service.searchLocations('Test')).rejects.toThrow(
+      InternalServerErrorException,
     );
-    await expect(service.searchLocations('Test')).rejects.toThrow(InternalServerErrorException);
   });
 });

@@ -59,7 +59,9 @@ describe('AuthResolver', () => {
     // Mock bcrypt.hash to return 'hashedpassword'
     jest
       .spyOn(bcrypt, 'hash')
-      .mockImplementation((data: string, saltOrRounds: number) => Promise.resolve('hashedpassword'));
+      .mockImplementation((data: string, saltOrRounds: number) =>
+        Promise.resolve('hashedpassword'),
+      );
 
     const result = await resolver.register(registerInput);
     expect(result).toEqual(dummyUser);
@@ -100,9 +102,13 @@ describe('AuthResolver', () => {
     // Simulate bcrypt.compare returning false for incorrect password
     jest
       .spyOn(bcrypt, 'compare')
-      .mockImplementation((password: string, hash: string) => Promise.resolve(false));
+      .mockImplementation((password: string, hash: string) =>
+        Promise.resolve(false),
+      );
 
-    await expect(resolver.login(loginInput)).rejects.toThrow('Invalid credentials');
+    await expect(resolver.login(loginInput)).rejects.toThrow(
+      'Invalid credentials',
+    );
   });
 
   it('should fail login for a non-existent user', async () => {
@@ -111,6 +117,8 @@ describe('AuthResolver', () => {
       password: 'any',
     };
 
-    await expect(resolver.login(loginInput)).rejects.toThrow('Invalid credentials');
+    await expect(resolver.login(loginInput)).rejects.toThrow(
+      'Invalid credentials',
+    );
   });
 });

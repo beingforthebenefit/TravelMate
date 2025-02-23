@@ -14,15 +14,17 @@ describe('Main bootstrap', () => {
     dummyApp = {
       enableCors: jest.fn(),
       listen: listenMock,
-      getHttpAdapter: () => ({} as HttpServer),
-      close: async () => { },
+      getHttpAdapter: () => ({}) as HttpServer,
+      close: async () => {},
     };
 
     // Spy on NestFactory.create to return our dummy app.
-    createAppSpy = jest.spyOn(NestFactory, 'create').mockResolvedValue(dummyApp as INestApplication);
+    createAppSpy = jest
+      .spyOn(NestFactory, 'create')
+      .mockResolvedValue(dummyApp as INestApplication);
 
     // Spy on console.log to capture the startup log.
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterAll(() => {
@@ -45,7 +47,7 @@ describe('Main bootstrap', () => {
     await bootstrap();
     expect(listenMock).toHaveBeenCalled();
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('🚀 Server ready at: http://localhost:')
+      expect.stringContaining('🚀 Server ready at: http://localhost:'),
     );
 
     // Restore NODE_ENV

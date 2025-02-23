@@ -9,11 +9,11 @@ module.exports = {
   },
   testRegex: '.*\\.(spec|e2e)\\.ts$',
   collectCoverageFrom: [
-    "**/*.(ts)",
-    "!**/node_modules/**",
-    "!**/dist/**",
-    "!**/coverage/**",
-    "!**/prisma/seed.ts"
+    '**/*.(ts)',
+    '!**/node_modules/**',
+    '!**/dist/**',
+    '!**/coverage/**',
+    '!**/prisma/seed.ts',
   ],
-  setupFiles: ["<rootDir>/jest.setup.js"]
+  setupFiles: ['<rootDir>/jest.setup.js'],
 };
