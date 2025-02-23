@@ -7,6 +7,7 @@ import { ItinerariesModule } from './itineraries/itineraries.module';
 import { DestinationsModule } from './destinations/destinations.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { MapsModule } from './maps/maps.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MapsModule } from './maps/maps.module';
     ItinerariesModule,
     DestinationsModule,
     MapsModule,
+    AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
