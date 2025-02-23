@@ -13,8 +13,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      // When running tests, generate the schema in memory (boolean true)
-      // Otherwise, write the schema to src/schema.gql.
+      // When in test mode, generate schema in memory instead of writing to disk.
       autoSchemaFile:
         process.env.NODE_ENV === 'test'
           ? true

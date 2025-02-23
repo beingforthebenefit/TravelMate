@@ -9,10 +9,8 @@ export async function createApp() {
   return app;
 }
 
-async function bootstrap() {
-  const app = await createApp();
-  const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+if (process.env.NODE_ENV !== 'test') {
+  createApp().then(app => app.listen(process.env.PORT ?? 3001));
+  console.log(
+    `🚀 Server ready at: http://localhost:${process.env.PORT ?? 3001}/graphql`)
 }
-bootstrap();
