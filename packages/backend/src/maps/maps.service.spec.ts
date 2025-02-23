@@ -3,6 +3,8 @@ import { MapsService } from './maps.service';
 import { HttpModule } from '@nestjs/axios';
 import { of } from 'rxjs';
 import { AxiosHeaders, AxiosResponse } from 'axios';
+import { InternalServerErrorException } from '@nestjs/common';
+import { throwError } from 'rxjs';
 
 describe('MapsService', () => {
   let service: MapsService;
@@ -41,5 +43,12 @@ describe('MapsService', () => {
     const result = await service.searchLocations('Test');
     expect(result.features).toBeDefined();
     expect(result.features[0].place_name).toBe('Test Place');
+  });
+
+  it('should throw an InternalServerErrorException when API call fails', async () => {
+    jest.spyOn(service['httpService'], 'get').mockReturnValue(
+      throwError(() => new Error('API error'))
+    );
+    await expect(service.searchLocations('Test')).rejects.toThrow(InternalServerErrorException);
   });
 });

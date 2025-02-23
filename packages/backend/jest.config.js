@@ -11,7 +11,9 @@ module.exports = {
   collectCoverageFrom: [
     "**/*.(ts)",
     "!**/node_modules/**",
-    "!**/dist/**"
+    "!**/dist/**",
+    "!**/coverage/**",
+    "!**/prisma/seed.ts"
   ],
   setupFiles: ["<rootDir>/jest.setup.js"]
 };
