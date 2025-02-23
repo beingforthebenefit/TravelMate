@@ -1,17 +1,39 @@
 "use client";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import NavBar from "@/components/NavBar";
-import "@testing-library/jest-dom";
+import { useRouter } from "next/navigation";
+
+// Mock next/navigation's useRouter
+const pushMock = jest.fn();
+jest.mock("next/navigation", () => ({
+    useRouter: () => ({
+        push: pushMock,
+    }),
+}));
 
 describe("NavBar", () => {
-    it("renders the logo and user settings button", () => {
+    beforeEach(() => {
+        // Clear localStorage before each test.
+        localStorage.clear();
+    });
+
+    it("renders the logo, user profile, and logout button", () => {
         render(<NavBar />);
-        // Check for logo by its alt text
         const logo = screen.getByAltText("TravelMate Logo");
         expect(logo).toBeInTheDocument();
-        // Check for the User Settings button
-        const settingsButton = screen.getByRole("button", { name: /user settings/i });
-        expect(settingsButton).toBeInTheDocument();
+        const logoutButton = screen.getByRole("button", { name: /logout/i });
+        expect(logoutButton).toBeInTheDocument();
+        const welcomeText = screen.getByText(/welcome, test user/i);
+        expect(welcomeText).toBeInTheDocument();
+    });
+
+    it("clears token and redirects on logout", () => {
+        localStorage.setItem("token", "dummyToken");
+        render(<NavBar />);
+        const logoutButton = screen.getByRole("button", { name: /logout/i });
+        fireEvent.click(logoutButton);
+        expect(localStorage.getItem("token")).toBeNull();
+        expect(pushMock).toHaveBeenCalledWith("/auth/login");
     });
 });

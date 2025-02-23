@@ -1,4 +1,9 @@
-"use client";
+// packages/frontend/__tests__/Dashboard.test.tsx
+jest.mock("next/navigation", () => ({
+    useRouter: () => ({
+        push: jest.fn(),
+    }),
+}));
 
 import { render, screen } from "@testing-library/react";
 import DashboardPage from "@/app/dashboard/page";
