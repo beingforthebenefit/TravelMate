@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import UserProfile from './UserProfile';
+import Image from 'next/image';
+import Font from 'next/font/google';
 
 export default function NavBar() {
   const router = useRouter();
@@ -14,16 +16,22 @@ export default function NavBar() {
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
         <div className="flex justify-between h-16">
           {/* Logo on the left */}
           <div className="flex items-center">
-            <Link href="/dashboard">
-              <img
-                className="h-8 w-auto"
+            <Link href="/dashboard" className="flex items-center">
+              <Image
+                className="h-16 w-auto"
                 src="/logo.svg"
                 alt="TravelMate Logo"
+                width={64}
+                height={64}
+                priority
               />
+              <span className="text-2xl font-bold text-gray-800 dark:text-gray-200 ml-2">
+                TravelMate
+              </span>
             </Link>
           </div>
           {/* Right side: User Profile and Logout */}
