@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import UserProfile from './UserProfile';
 import Image from 'next/image';
-import Font from 'next/font/google';
 
 export default function NavBar() {
   const router = useRouter();
