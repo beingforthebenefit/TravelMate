@@ -1,6 +1,6 @@
 # TravelMate
 
-TravelMate is a modern full-stack application for travel planning and itinerary management. It features a fully functional backend with a GraphQL API, a Next.js frontend with Apollo Client integration, and a Dockerized development environment that includes automated testing, linting, and CI/CD workflows. Built with TypeScript and Tailwind CSS, TravelMate is designed to showcase modern development techniques and serve as a reusable template for future projects.
+TravelMate is a modern full‑stack application for travel planning and itinerary management. It features a robust NestJS backend with a GraphQL API powered by Prisma for PostgreSQL, and a Next.js frontend with Apollo Client integration and Tailwind CSS styling. The entire development environment is containerized using Docker and Docker Compose, and the project leverages Yarn Workspaces, automated testing, linting, commit hooks, and CI/CD workflows via GitHub Actions. Detailed code coverage reports are generated and published via Codecov.
 
 ## Table of Contents
 
@@ -10,76 +10,38 @@ TravelMate is a modern full-stack application for travel planning and itinerary 
 - [Development Setup](#development-setup)
 - [Docker Configuration](#docker-configuration)
 - [Testing and CI/CD](#testing-and-cicd)
+- [Coverage Reports](#coverage-reports)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Features
 
-- **User Authentication:** Login and registration pages.
+- **User Authentication:** Secure login and registration with JWT.
 - **Itinerary Management:** Create, view, update, and delete travel itineraries.
-- **Destination Search & Interactive Maps:** Search for destinations and view them on an interactive map.
-- **GraphQL API:** A robust backend API built with NestJS and Prisma for PostgreSQL.
-- **Modern Frontend:** A Next.js application with Apollo Client for seamless GraphQL integration and Tailwind CSS for responsive design.
-- **Dockerized Environment:** Everything is containerized using Docker and Docker Compose for consistent development and deployment.
-- **Quality Assurance:** Pre-configured linting, commit hooks with Husky and lint-staged, and automated tests.
+- **Destination Search & Interactive Maps:** Search destinations with interactive map integration.
+- **GraphQL API:** Built with NestJS and Prisma for efficient data management.
+- **Modern Frontend:** Next.js application with Apollo Client and Tailwind CSS.
+- **Dockerized Environment:** Consistent development and deployment using Docker and Docker Compose.
+- **Automated Testing & Quality Assurance:** Comprehensive unit and integration tests, along with commit hooks (Husky, lint‑staged), ESLint, and Prettier.
+- **CI/CD and Coverage Reports:** GitHub Actions automate builds, tests, and deployments. Detailed coverage reports are generated and published via Codecov.
 
 ## Tech Stack
 
 - **Backend:**
-  - [NestJS](https://nestjs.com/)
-  - [GraphQL](https://graphql.org/)
-  - [Prisma](https://www.prisma.io/)
-  - PostgreSQL
+  - NestJS, GraphQL, Prisma, PostgreSQL
 - **Frontend:**
-  - [Next.js](https://nextjs.org/)
-  - [Apollo Client](https://www.apollographql.com/docs/react/)
-  - [Tailwind CSS](https://tailwindcss.com/)
+  - Next.js, Apollo Client, Tailwind CSS
 - **DevOps & Tooling:**
-  - Docker & Docker Compose
-  - Yarn Workspaces
-  - Husky, lint-staged, ESLint, Prettier
-  - GitHub Actions for CI/CD
+  - Docker, Docker Compose, Yarn Workspaces, Husky, lint‑staged, ESLint, Prettier, GitHub Actions, Codecov
 
 ## Project Structure
 
-```
-travelmate/
-├── LICENSE
-├── README.md
-├── docker-compose.yml
-├── docker-compose.override.yml
-├── packages/
-│   ├── backend/         # NestJS backend with GraphQL and Prisma
-│   │   ├── src/
-│   │   │   ├── app.module.ts
-│   │   │   ├── prisma/
-│   │   │   ├── users/
-│   │   │   ├── itineraries/
-│   │   │   ├── destinations/
-│   │   │   └── maps/
-│   │   ├── prisma/
-│   │   │   └── schema.prisma
-│   │   ├── Dockerfile
-│   │   └── package.json
-│   └── frontend/        # Next.js frontend with Apollo Client and Tailwind CSS
-│       ├── app/
-│       │   ├── layout.tsx
-│       │   ├── page.tsx
-│       │   └── auth/
-│       │       ├── login/page.tsx
-│       │       └── register/page.tsx
-│       ├── lib/
-│       │   └── apollo-client.ts
-│       ├── components/
-│       │   └── ApolloProviderWrapper.tsx
-│       ├── public/
-│       ├── tailwind.config.ts
-│       ├── postcss.config.mjs
-│       ├── tsconfig.json
-│       ├── next.config.ts
-│       └── package.json
-└── .env.local          # Frontend environment variables
-```
+The project is organized as a Yarn Workspace with two main packages:
+
+- **packages/backend:** Contains the NestJS backend, including modules for authentication, itineraries, destinations, maps, and database integration using Prisma.
+- **packages/frontend:** Contains the Next.js frontend, including pages for authentication (login and registration), a dashboard, shared components (NavBar, UserProfile, useAuth), and Apollo Client setup.
+
+For a detailed view, refer to the repository’s file tree.
 
 ## Development Setup
 
@@ -92,26 +54,24 @@ travelmate/
 
 2. **Install Dependencies:**
 
-   At the root level, run:
-
    ```
    yarn install
    ```
 
 3. **Environment Variables:**
 
-   In ```packages/frontend/.env.local```, set the GraphQL endpoint:
+   - In `packages/frontend/.env.local`, set:
+     
+     ```
+     NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:3001/graphql
+     ```
 
-   ```
-   NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:3001/graphql
-   ```
+   - In `packages/backend/.env`, configure your PostgreSQL connection and other backend-specific environment variables.
 
-   In ```packages/backend/.env```, configure your PostgreSQL connection if needed.
+4. **Start the Development Environment:**
 
-4. **Start the Containers:**
-
-   Use Docker Compose for development. With the override file, run:
-
+   Use Docker Compose with live reloading:
+   
    ```
    docker-compose up --build
    ```
@@ -121,58 +81,53 @@ travelmate/
 
 ## Docker Configuration
 
-- **docker-compose.yml:**  
-  Defines services for the PostgreSQL database, backend, and frontend.
-
-- **docker-compose.override.yml:**  
-  Adds volume mounts and development commands for live reloading.
-
-- **Dockerfiles:**  
-  Located in ```packages/backend``` and ```packages/frontend``` respectively, these files build the container images.
+- **docker-compose.yml:** Defines services for the PostgreSQL database, backend, and frontend.
+- **docker-compose.override.yml:** Adds volume mounts and development commands for live reloading.
+- **Dockerfiles:** Located in `packages/backend` and `packages/frontend`, these files build the container images.
 
 ## Testing and CI/CD
 
-- **Local Testing:**  
-  Run tests for the frontend and backend using:
+- **Local Testing:**
+  - Run tests for all packages:
+    
+    ```
+    yarn test
+    ```
 
-   ```
-   yarn test
-   ```
+  - Run tests for each package:
+    
+    ```
+    yarn workspace backend test
+    yarn workspace frontend test
+    ```
 
-  or just one package with
-  
-  ```
-  yarn workspace backend test
-  ```
+  - Generate coverage reports:
+    
+    ```
+    yarn coverage
+    ```
 
-  and
+- **CI/CD:**
+  GitHub Actions are configured (see `.github/workflows/ci.yml`) to run linting, tests, builds, and coverage on push and pull requests.
 
-  ```
-  yarn workspace frontend test
-  ```
+- **Commit Hooks:**
+  Husky and lint‑staged enforce code quality before commits and pushes.
 
-- **CI/CD:**  
-  GitHub Actions is configured to run linting, testing, and builds automatically on push and pull requests.
+## Coverage Reports
 
-- **Commit Hooks:**  
-  Husky and lint-staged are configured to enforce code quality before commits and pushes.
+Coverage reports are generated for both the backend and frontend. For a rendered view of the reports, visit our Codecov page:
+
+[https://app.codecov.io/gh/beingforthebenefit/TravelMate](https://app.codecov.io/gh/beingforthebenefit/TravelMate)
 
 ## Contributing
 
-Contributions are welcome! Please follow these guidelines:
+Contributions are welcome! Please adhere to the following guidelines:
 
-1. **Code Style:**  
-   Ensure your code adheres to our ESLint and Prettier configurations.
-
-2. **Testing:**  
-   Write unit and end-to-end tests for new features and bug fixes.
-
-3. **Commit Messages:**  
-   Write clear and descriptive commit messages.
-
-4. **Pull Requests:**  
-   Open a pull request describing your changes. Ensure all tests pass and CI checks are green.
+1. **Code Style:** Follow our ESLint and Prettier configurations.
+2. **Testing:** Write comprehensive tests for new features and bug fixes.
+3. **Commit Messages:** Use clear and descriptive commit messages.
+4. **Pull Requests:** Open a pull request with a clear description of your changes. Ensure all tests pass and CI checks are green.
 
 ## License
 
-This project is licensed under the MIT License. See the ```LICENSE``` file for details.
+This project is licensed under the MIT License. See the ``` LICENSE ``` file for details.
